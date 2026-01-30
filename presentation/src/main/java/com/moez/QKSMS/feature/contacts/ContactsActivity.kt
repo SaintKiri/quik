@@ -43,7 +43,6 @@ import dev.octoshrimpy.quik.feature.compose.editing.PhoneNumberPickerAdapter
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.contacts_activity.*
 import javax.inject.Inject
 
 class ContactsActivity : QkThemedActivity(), ContactsContract {

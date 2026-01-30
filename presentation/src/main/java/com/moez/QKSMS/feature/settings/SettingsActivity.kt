@@ -25,7 +25,6 @@ import com.bluelinelabs.conductor.RouterTransaction
 import dagger.android.AndroidInjection
 import dev.octoshrimpy.quik.R
 import dev.octoshrimpy.quik.common.base.QkThemedActivity
-import kotlinx.android.synthetic.main.container_activity.*
 
 class SettingsActivity : QkThemedActivity() {
 

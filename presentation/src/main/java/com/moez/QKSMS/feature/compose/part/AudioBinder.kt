@@ -44,8 +44,6 @@ import dev.octoshrimpy.quik.util.GlideApp
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.mms_audio_preview_list_item.*
-import kotlinx.android.synthetic.main.mms_image_preview_list_item.thumbnail
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

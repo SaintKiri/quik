@@ -34,9 +34,6 @@ import dev.octoshrimpy.quik.model.Attachment
 import ezvcard.Ezvcard
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.attachment_contact_list_item.*
-import kotlinx.android.synthetic.main.scheduled_message_image_list_item.fileName
-import kotlinx.android.synthetic.main.scheduled_message_image_list_item.thumbnail
 import javax.inject.Inject
 
 

@@ -35,9 +35,6 @@ import dev.octoshrimpy.quik.common.util.extensions.setTint
 import dev.octoshrimpy.quik.common.util.extensions.setVisible
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.theme_list_item.view.*
-import kotlinx.android.synthetic.main.theme_palette_list_item.*
-import kotlinx.android.synthetic.main.theme_palette_list_item.view.*
 import javax.inject.Inject
 
 class ThemeAdapter @Inject constructor(

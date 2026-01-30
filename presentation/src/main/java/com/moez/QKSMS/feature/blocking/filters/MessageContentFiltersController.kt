@@ -35,9 +35,6 @@ import dev.octoshrimpy.quik.model.MessageContentFilterData
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.message_content_filters_add_dialog.view.*
-import kotlinx.android.synthetic.main.message_content_filters_controller.*
-import kotlinx.android.synthetic.main.settings_switch_widget.view.*
 import javax.inject.Inject
 
 class MessageContentFiltersController : QkController<MessageContentFiltersView, MessageContentFiltersState,

@@ -34,8 +34,6 @@ import dev.octoshrimpy.quik.injection.appComponent
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.theme_picker_controller.*
-import kotlinx.android.synthetic.main.theme_picker_hsv.*
 import javax.inject.Inject
 
 class ThemePickerController(

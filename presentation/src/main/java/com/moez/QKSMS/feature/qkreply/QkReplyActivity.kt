@@ -48,8 +48,6 @@ import dev.octoshrimpy.quik.common.widget.QkEditText
 import dev.octoshrimpy.quik.feature.compose.MessagesAdapter
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.compose_activity.message
-import kotlinx.android.synthetic.main.qkreply_activity.*
 import javax.inject.Inject
 
 class QkReplyActivity : QkThemedActivity(), QkReplyView {

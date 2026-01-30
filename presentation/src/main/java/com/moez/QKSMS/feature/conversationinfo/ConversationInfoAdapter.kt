@@ -16,9 +16,6 @@ import dev.octoshrimpy.quik.feature.conversationinfo.ConversationInfoItem.*
 import dev.octoshrimpy.quik.util.GlideApp
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.conversation_info_settings.*
-import kotlinx.android.synthetic.main.conversation_media_list_item.*
-import kotlinx.android.synthetic.main.conversation_recipient_list_item.*
 import javax.inject.Inject
 
 class ConversationInfoAdapter @Inject constructor(

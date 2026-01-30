@@ -28,7 +28,6 @@ import dev.octoshrimpy.quik.common.util.extensions.setBackgroundTint
 import dev.octoshrimpy.quik.common.util.extensions.setTint
 import dev.octoshrimpy.quik.injection.appComponent
 import dev.octoshrimpy.quik.model.Recipient
-import kotlinx.android.synthetic.main.contact_chip_detailed.view.*
 import javax.inject.Inject
 
 class DetailedChipView(context: Context) : RelativeLayout(context) {

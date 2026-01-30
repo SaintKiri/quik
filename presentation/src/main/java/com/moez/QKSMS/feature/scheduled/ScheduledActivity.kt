@@ -33,8 +33,6 @@ import dev.octoshrimpy.quik.common.util.extensions.setBackgroundTint
 import dev.octoshrimpy.quik.common.util.extensions.setTint
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.main_activity.toolbar
-import kotlinx.android.synthetic.main.scheduled_activity.*
 import javax.inject.Inject
 
 

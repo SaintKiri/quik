@@ -29,9 +29,6 @@ import dev.octoshrimpy.quik.extensions.Optional
 import dev.octoshrimpy.quik.model.PhoneNumber
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.phone_number_list_item.*
-import kotlinx.android.synthetic.main.radio_preference_view.*
-import kotlinx.android.synthetic.main.radio_preference_view.view.*
 import javax.inject.Inject
 
 class PhoneNumberPickerAdapter @Inject constructor(

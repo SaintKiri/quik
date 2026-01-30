@@ -28,7 +28,6 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.octoshrimpy.quik.util.Preferences
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 abstract class QkActivity : AppCompatActivity() {

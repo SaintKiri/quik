@@ -32,8 +32,6 @@ import dev.octoshrimpy.quik.util.PhoneNumberUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.blocked_numbers_add_dialog.view.*
-import kotlinx.android.synthetic.main.blocked_numbers_controller.*
 import javax.inject.Inject
 
 class BlockedNumbersController : QkController<BlockedNumbersView, BlockedNumbersState, BlockedNumbersPresenter>(),

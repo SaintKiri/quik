@@ -31,8 +31,6 @@ import dev.octoshrimpy.quik.common.util.extensions.resolveThemeColor
 import dev.octoshrimpy.quik.model.Conversation
 import dev.octoshrimpy.quik.util.Preferences
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.blocked_list_item.*
-import kotlinx.android.synthetic.main.blocked_list_item.view.*
 import javax.inject.Inject
 
 class BlockedMessagesAdapter @Inject constructor(

@@ -37,8 +37,6 @@ import dev.octoshrimpy.quik.model.Conversation
 import dev.octoshrimpy.quik.repository.ScheduledMessageRepository
 import dev.octoshrimpy.quik.util.PhoneNumberUtils
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.conversation_list_item.*
-import kotlinx.android.synthetic.main.conversation_list_item.view.*
 import javax.inject.Inject
 
 class ConversationsAdapter @Inject constructor(
