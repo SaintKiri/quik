@@ -25,6 +25,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import dev.octoshrimpy.quik.R
 import dev.octoshrimpy.quik.util.Preferences
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
@@ -59,12 +60,14 @@ abstract class QkActivity : AppCompatActivity() {
 
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         title = title // The title may have been set before layout inflation
     }
 
     override fun setContentView(view: View?) {
         super.setContentView(view)
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         title = title // The title may have been set before layout inflation
     }
@@ -75,6 +78,7 @@ abstract class QkActivity : AppCompatActivity() {
 
     override fun setTitle(title: CharSequence?) {
         super.setTitle(title)
+        val toolbarTitle = findViewById<android.widget.TextView>(R.id.toolbarTitle)
         toolbarTitle?.text = title
     }
 

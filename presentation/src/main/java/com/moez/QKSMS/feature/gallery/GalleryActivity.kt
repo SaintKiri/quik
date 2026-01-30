@@ -52,6 +52,11 @@ class GalleryActivity : QkActivity(), GalleryView {
     private val pageChangedSubject: Subject<MmsPart> = PublishSubject.create()
     private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory)[GalleryViewModel::class.java] }
 
+    private lateinit var pager: ViewPager2
+    private lateinit var toolbar: android.view.View
+    private lateinit var toolbarTitle: android.widget.TextView
+    private lateinit var toolbarSubtitle: android.widget.TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
         AndroidInjection.inject(this)

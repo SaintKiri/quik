@@ -48,7 +48,8 @@ import javax.inject.Inject
 
 class BackupController : QkController<BackupView, BackupState, BackupPresenter>(), BackupView {
 
-    @Inject override lateinit var presenter: BackupPresenter
+    @Inject
+    override lateinit var presenter: BackupPresenter
 
     private val selectFolderCancelSubject: Subject<Unit> = PublishSubject.create()
     private val selectFolderConfirmSubject: Subject<Unit> = PublishSubject.create()
@@ -66,44 +67,56 @@ class BackupController : QkController<BackupView, BackupState, BackupPresenter>(
 
     private val stopRestoreDialog by lazy {
         AlertDialog.Builder(activity!!)
-                .setTitle(R.string.backup_restore_stop_title)
-                .setMessage(R.string.backup_restore_stop_message)
-                .setPositiveButton(R.string.button_stop, stopRestoreConfirmSubject)
-                .setNegativeButton(R.string.button_cancel, stopRestoreCancelSubject)
-                .setCancelable(false)
-                .create()
+            .setTitle(R.string.backup_restore_stop_title)
+            .setMessage(R.string.backup_restore_stop_message)
+            .setPositiveButton(R.string.button_stop, stopRestoreConfirmSubject)
+            .setNegativeButton(R.string.button_cancel, stopRestoreCancelSubject)
+            .setCancelable(false)
+            .create()
     }
 
     private val selectLocationRationaleDialog by lazy {
         AlertDialog.Builder(activity!!)
-                .setTitle(R.string.backup_select_location_rationale_title)
-                .setMessage(R.string.backup_select_location_rationale_message)
-                .setPositiveButton(R.string.button_continue, selectFolderConfirmSubject)
-                .setNegativeButton(R.string.button_cancel, selectFolderCancelSubject)
-                .setCancelable(false)
-                .create()
+            .setTitle(R.string.backup_select_location_rationale_title)
+            .setMessage(R.string.backup_select_location_rationale_message)
+            .setPositiveButton(R.string.button_continue, selectFolderConfirmSubject)
+            .setNegativeButton(R.string.button_cancel, selectFolderCancelSubject)
+            .setCancelable(false)
+            .create()
     }
 
     private val selectedBackupErrorDialog by lazy {
         AlertDialog.Builder(activity!!)
-                .setTitle(R.string.backup_selected_backup_error_title)
-                .setMessage(R.string.backup_selected_backup_error_message)
-                .setPositiveButton(R.string.button_continue, restoreErrorConfirmSubject)
-                .setCancelable(false)
-                .create()
+            .setTitle(R.string.backup_selected_backup_error_title)
+            .setMessage(R.string.backup_selected_backup_error_message)
+            .setPositiveButton(R.string.button_continue, restoreErrorConfirmSubject)
+            .setCancelable(false)
+            .create()
     }
 
     private val selectedBackupDetailsDialog by lazy {
         AlertDialog.Builder(activity!!)
-                .setTitle(R.string.backup_selected_backup_details_title)
-                .setPositiveButton(R.string.backup_restore_title, confirmRestoreConfirmSubject)
-                .setNegativeButton(R.string.button_cancel, confirmRestoreCancelSubject)
-                .setCancelable(false)
-                .create()
+            .setTitle(R.string.backup_selected_backup_details_title)
+            .setPositiveButton(R.string.backup_restore_title, confirmRestoreConfirmSubject)
+            .setNegativeButton(R.string.button_cancel, confirmRestoreCancelSubject)
+            .setCancelable(false)
+            .create()
     }
 
     private lateinit var openDirectory: ActivityResultLauncher<Uri?>
     private lateinit var openDocument: ActivityResultLauncher<QkActivityResultContracts.OpenDocumentParams>
+    private lateinit var progressBar: android.widget.ProgressBar
+    private lateinit var fab: View
+    private lateinit var fabIcon: android.widget.ImageView
+    private lateinit var fabLabel: android.widget.TextView
+    private lateinit var linearLayout: android.view.ViewGroup
+    private lateinit var progress: View
+    private lateinit var progressIcon: android.widget.ImageView
+    private lateinit var progressTitle: android.widget.TextView
+    private lateinit var progressSummary: android.widget.TextView
+    private lateinit var progressCancel: View
+    private lateinit var location: View
+    private lateinit var restore: View
 
     init {
         appComponent.inject(this)
@@ -132,6 +145,20 @@ class BackupController : QkController<BackupView, BackupState, BackupPresenter>(
 
     override fun onViewCreated() {
         super.onViewCreated()
+        val view = containerView ?: return
+
+        progressBar = view.findViewById(R.id.progressBar)
+        fab = view.findViewById(R.id.fab)
+        fabIcon = view.findViewById(R.id.fabIcon)
+        fabLabel = view.findViewById(R.id.fabLabel)
+        linearLayout = view.findViewById(R.id.linearLayout)
+        progress = view.findViewById(R.id.progress)
+        progressIcon = view.findViewById(R.id.progressIcon)
+        progressTitle = view.findViewById(R.id.progressTitle)
+        progressSummary = view.findViewById(R.id.progressSummary)
+        progressCancel = view.findViewById(R.id.progressCancel)
+        location = view.findViewById(R.id.location)
+        restore = view.findViewById(R.id.restore)
 
         themedActivity?.colors?.theme()?.let { theme ->
             progressBar.indeterminateTintList = ColorStateList.valueOf(theme.theme)
@@ -143,9 +170,9 @@ class BackupController : QkController<BackupView, BackupState, BackupPresenter>(
 
         // Make the list titles bold
         linearLayout.children
-                .mapNotNull { it as? PreferenceView }
-                .map { it.titleView }
-                .forEach { it.setTypeface(it.typeface, Typeface.BOLD) }
+            .mapNotNull { child -> child as? PreferenceView }
+            .map { perfView -> perfView.titleTextView }
+            .forEach { titleView -> titleView.setTypeface(titleView.typeface, Typeface.BOLD) }
     }
 
     override fun render(state: BackupState) {
@@ -197,15 +224,19 @@ class BackupController : QkController<BackupView, BackupState, BackupPresenter>(
 
         stopRestoreDialog.setShowing(state.showStopRestoreDialog)
 
-        fabIcon.setImageResource(when (state.upgraded) {
-            true -> R.drawable.ic_file_upload_black_24dp
-            false -> R.drawable.ic_star_black_24dp
-        })
+        fabIcon.setImageResource(
+            when (state.upgraded) {
+                true -> R.drawable.ic_file_upload_black_24dp
+                false -> R.drawable.ic_star_black_24dp
+            }
+        )
 
-        fabLabel.setText(when (state.upgraded) {
-            true -> R.string.backup_now
-            false -> R.string.title_qksms_plus
-        })
+        fabLabel.setText(
+            when (state.upgraded) {
+                true -> R.string.backup_now
+                false -> R.string.title_qksms_plus
+            }
+        )
     }
 
     override fun setBackupLocationClicks(): Observable<*> = location.clicks()
@@ -239,9 +270,12 @@ class BackupController : QkController<BackupView, BackupState, BackupPresenter>(
     }
 
     override fun selectFile(initialUri: Uri) {
-        openDocument.launch(QkActivityResultContracts.OpenDocumentParams(
+        openDocument.launch(
+            QkActivityResultContracts.OpenDocumentParams(
                 mimeTypes = listOf("application/json", "application/octet-stream"),
-                initialUri = initialUri))
+                initialUri = initialUri
+            )
+        )
     }
 
 }

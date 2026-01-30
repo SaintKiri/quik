@@ -35,6 +35,8 @@ class SettingsActivity : QkThemedActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_activity)
 
+        val container: android.view.ViewGroup = findViewById(R.id.container)
+
         router = Conductor.attachRouter(this, container, savedInstanceState)
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(SettingsController()))

@@ -48,6 +48,7 @@ class PhoneNumberPickerAdapter @Inject constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QkViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.phone_number_list_item, parent, false)
+        val radioButton = view.findViewById<android.widget.RadioButton>(R.id.radioButton)
         return QkViewHolder(view).apply {
             radioButton.forwardTouches(itemView)
 
@@ -60,10 +61,15 @@ class PhoneNumberPickerAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: QkViewHolder, position: Int) {
         val phoneNumber = getItem(position)
+        val view = holder.itemView
 
-        holder.number.radioButton.isChecked = phoneNumber.id == selectedItem
-        holder.number.titleView.text = phoneNumber.address
-        holder.number.summaryView.text = when (phoneNumber.isDefault) {
+        val radioButton = view.findViewById<android.widget.RadioButton>(R.id.radioButton)
+        val titleView = view.findViewById<android.widget.TextView>(R.id.titleView)
+        val summaryView = view.findViewById<android.widget.TextView>(R.id.summaryView)
+
+        radioButton.isChecked = phoneNumber.id == selectedItem
+        titleView.text = phoneNumber.address
+        summaryView.text = when (phoneNumber.isDefault) {
             true -> context.getString(R.string.compose_number_picker_default, phoneNumber.type)
             false -> phoneNumber.type
         }

@@ -66,6 +66,36 @@ class SettingsController : QkController<SettingsView, SettingsState, SettingsPre
 
     @Inject override lateinit var presenter: SettingsPresenter
 
+    // Containers
+    private lateinit var preferences: android.view.ViewGroup
+    private lateinit var contentView: View
+
+    // Widgets
+    private lateinit var syncingProgress: android.widget.ProgressBar
+    private lateinit var themePreview: View
+
+    // PreferenceViews
+    private lateinit var about: PreferenceView
+    private lateinit var night: PreferenceView
+    private lateinit var nightStart: PreferenceView
+    private lateinit var nightEnd: PreferenceView
+    private lateinit var black: PreferenceView
+    private lateinit var autoEmoji: PreferenceView
+    private lateinit var delayed: PreferenceView
+    private lateinit var delivery: PreferenceView
+    private lateinit var unreadAtTop: PreferenceView
+    private lateinit var signature: PreferenceView
+    private lateinit var textSize: PreferenceView
+    private lateinit var autoColor: PreferenceView
+    private lateinit var systemFont: PreferenceView
+    private lateinit var showStt: PreferenceView
+    private lateinit var unicode: PreferenceView
+    private lateinit var mobileOnly: PreferenceView
+    private lateinit var longAsMms: PreferenceView
+    private lateinit var mmsSize: PreferenceView
+    private lateinit var messsageLinkHandling: PreferenceView
+    private lateinit var disableScreenshots: PreferenceView
+
     private val signatureDialog: TextInputDialog by lazy {
         TextInputDialog(activity!!, context.getString(R.string.settings_signature_title), signatureSubject::onNext)
     }
@@ -88,7 +118,37 @@ class SettingsController : QkController<SettingsView, SettingsState, SettingsPre
     }
 
     override fun onViewCreated() {
-        preferences.postDelayed({ preferences?.animateLayoutChanges = true }, 100)
+        val view = containerView!!
+
+        // Initialize Containers & Widgets
+        preferences = view.findViewById(R.id.preferences)
+        contentView = view.findViewById(R.id.contentView)
+        syncingProgress = view.findViewById(R.id.syncingProgress)
+        themePreview = view.findViewById(R.id.themePreview)
+
+        // Initialize Preferences
+        about = view.findViewById(R.id.about)
+        night = view.findViewById(R.id.night)
+        nightStart = view.findViewById(R.id.nightStart)
+        nightEnd = view.findViewById(R.id.nightEnd)
+        black = view.findViewById(R.id.black)
+        autoEmoji = view.findViewById(R.id.autoEmoji)
+        delayed = view.findViewById(R.id.delayed)
+        delivery = view.findViewById(R.id.delivery)
+        unreadAtTop = view.findViewById(R.id.unreadAtTop)
+        signature = view.findViewById(R.id.signature)
+        textSize = view.findViewById(R.id.textSize)
+        autoColor = view.findViewById(R.id.autoColor)
+        systemFont = view.findViewById(R.id.systemFont)
+        showStt = view.findViewById(R.id.showStt)
+        unicode = view.findViewById(R.id.unicode)
+        mobileOnly = view.findViewById(R.id.mobileOnly)
+        longAsMms = view.findViewById(R.id.longAsMms)
+        mmsSize = view.findViewById(R.id.mmsSize)
+        messsageLinkHandling = view.findViewById(R.id.messsageLinkHandling)
+        disableScreenshots = view.findViewById(R.id.disableScreenshots)
+
+        preferences.postDelayed({ preferences.animateLayoutChanges = true }, 100)
 
         when (Build.VERSION.SDK_INT >= 29) {
             true -> nightModeDialog.adapter.setData(R.array.night_modes)
@@ -147,16 +207,16 @@ class SettingsController : QkController<SettingsView, SettingsState, SettingsPre
         nightEnd.summary = state.nightEnd
 
         black.setVisible(state.nightModeId != Preferences.NIGHT_MODE_OFF)
-        black.checkbox.isChecked = state.black
+        black.checkbox?.isChecked = state.black
 
-        autoEmoji.checkbox.isChecked = state.autoEmojiEnabled
+        autoEmoji.checkbox?.isChecked = state.autoEmojiEnabled
 
         delayed.summary = state.sendDelaySummary
         sendDelayDialog.adapter.selectedItem = state.sendDelayId
 
-        delivery.checkbox.isChecked = state.deliveryEnabled
+        delivery.checkbox?.isChecked = state.deliveryEnabled
 
-        unreadAtTop.checkbox.isChecked = state.unreadAtTopEnabled
+        unreadAtTop.checkbox?.isChecked = state.unreadAtTopEnabled
 
         signature.summary = state.signature.takeIf { it.isNotBlank() }
                 ?: context.getString(R.string.settings_signature_summary)
@@ -164,16 +224,16 @@ class SettingsController : QkController<SettingsView, SettingsState, SettingsPre
         textSize.summary = state.textSizeSummary
         textSizeDialog.adapter.selectedItem = state.textSizeId
 
-        autoColor.checkbox.isChecked = state.autoColor
+        autoColor.checkbox?.isChecked = state.autoColor
 
-        systemFont.checkbox.isChecked = state.systemFontEnabled
+        systemFont.checkbox?.isChecked = state.systemFontEnabled
 
-        showStt.checkbox.isChecked = state.showStt
+        showStt.checkbox?.isChecked = state.showStt
 
-        unicode.checkbox.isChecked = state.stripUnicodeEnabled
-        mobileOnly.checkbox.isChecked = state.mobileOnly
+        unicode.checkbox?.isChecked = state.stripUnicodeEnabled
+        mobileOnly.checkbox?.isChecked = state.mobileOnly
 
-        longAsMms.checkbox.isChecked = state.longAsMms
+        longAsMms.checkbox?.isChecked = state.longAsMms
 
         mmsSize.summary = state.maxMmsSizeSummary
         mmsSizeDialog.adapter.selectedItem = state.maxMmsSizeId
@@ -181,7 +241,7 @@ class SettingsController : QkController<SettingsView, SettingsState, SettingsPre
         messsageLinkHandling.summary = state.messageLinkHandlingSummary
         messageLinkHandlingDialog.adapter.selectedItem = state.messageLinkHandlingId
 
-        disableScreenshots.checkbox.isChecked = state.disableScreenshotsEnabled
+        disableScreenshots.checkbox?.isChecked = state.disableScreenshotsEnabled
 
         when (state.syncProgress) {
             is SyncRepository.SyncProgress.Idle -> syncingProgress.isVisible = false

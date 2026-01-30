@@ -30,7 +30,11 @@ import javax.inject.Inject
 
 class AboutController : QkController<AboutView, Unit, AboutPresenter>(), AboutView {
 
-    @Inject override lateinit var presenter: AboutPresenter
+    @Inject
+    override lateinit var presenter: AboutPresenter
+
+    private lateinit var version: PreferenceView
+    private lateinit var preferences: android.view.ViewGroup
 
     init {
         appComponent.inject(this)
@@ -38,6 +42,12 @@ class AboutController : QkController<AboutView, Unit, AboutPresenter>(), AboutVi
     }
 
     override fun onViewCreated() {
+        super.onViewCreated()
+        val view = containerView ?: return
+
+        version = view.findViewById(R.id.version)
+        preferences = view.findViewById(R.id.preferences)
+
         version.summary = BuildConfig.VERSION_NAME
     }
 
@@ -49,10 +59,10 @@ class AboutController : QkController<AboutView, Unit, AboutPresenter>(), AboutVi
     }
 
     override fun preferenceClicks(): Observable<PreferenceView> = (0 until preferences.childCount)
-            .map { index -> preferences.getChildAt(index) }
-            .mapNotNull { view -> view as? PreferenceView }
-            .map { preference -> preference.clicks().map { preference } }
-            .let { preferences -> Observable.merge(preferences) }
+        .map { index -> preferences.getChildAt(index) }
+        .mapNotNull { view -> view as? PreferenceView }
+        .map { preference -> preference.clicks().map { preference } }
+        .let { preferences -> Observable.merge(preferences) }
 
     override fun render(state: Unit) {
         // No special rendering required

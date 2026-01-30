@@ -35,6 +35,8 @@ class ConversationInfoActivity : QkThemedActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_activity)
 
+        val container: android.view.ViewGroup = findViewById(R.id.container)
+
         router = Conductor.attachRouter(this, container, savedInstanceState)
         if (!router.hasRootController()) {
             val threadId = intent.extras?.getLong("threadId") ?: 0L

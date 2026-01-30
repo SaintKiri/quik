@@ -40,6 +40,10 @@ class PreferenceView @JvmOverloads constructor(
 
     val titleTextView: TextView get() = layout.titleView
 
+    val checkbox: android.widget.CheckBox? get() = findViewById(R.id.checkbox)
+    val action: android.widget.ImageView get() = layout.icon
+    val widgetFrame: android.view.ViewGroup get() = layout.widgetFrame
+
     var title: String? = null
         set(value) {
             field = value

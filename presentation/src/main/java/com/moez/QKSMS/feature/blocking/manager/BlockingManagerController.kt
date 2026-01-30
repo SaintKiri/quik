@@ -10,6 +10,7 @@ import dev.octoshrimpy.quik.R
 import dev.octoshrimpy.quik.common.base.QkController
 import dev.octoshrimpy.quik.common.util.Colors
 import dev.octoshrimpy.quik.common.util.extensions.resolveThemeColor
+import dev.octoshrimpy.quik.common.widget.PreferenceView
 import dev.octoshrimpy.quik.injection.appComponent
 import dev.octoshrimpy.quik.util.Preferences
 import io.reactivex.Observable
@@ -25,10 +26,25 @@ class BlockingManagerController : QkController<BlockingManagerView, BlockingMana
 
     private val activityResumedSubject: PublishSubject<Unit> = PublishSubject.create()
 
+    private lateinit var qksms: PreferenceView
+    private lateinit var callBlocker: PreferenceView
+    private lateinit var callControl: PreferenceView
+    private lateinit var shouldIAnswer: PreferenceView
+
     init {
         appComponent.inject(this)
         retainViewMode = RetainViewMode.RETAIN_DETACH
         layoutRes = R.layout.blocking_manager_controller
+    }
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+        val view = containerView ?: return
+
+        qksms = view.findViewById(R.id.qksms)
+        callBlocker = view.findViewById(R.id.callBlocker)
+        callControl = view.findViewById(R.id.callControl)
+        shouldIAnswer = view.findViewById(R.id.shouldIAnswer)
     }
 
     override fun onAttach(view: View) {

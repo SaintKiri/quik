@@ -44,6 +44,10 @@ class BlockedNumbersController : QkController<BlockedNumbersView, BlockedNumbers
     private val adapter = BlockedNumbersAdapter()
     private val saveAddressSubject: Subject<String> = PublishSubject.create()
 
+    private lateinit var add: android.view.View
+    private lateinit var empty: android.view.View
+    private lateinit var numbers: androidx.recyclerview.widget.RecyclerView
+
     init {
         appComponent.inject(this)
         retainViewMode = RetainViewMode.RETAIN_DETACH
@@ -59,6 +63,12 @@ class BlockedNumbersController : QkController<BlockedNumbersView, BlockedNumbers
 
     override fun onViewCreated() {
         super.onViewCreated()
+        val view = containerView!!
+
+        add = view.findViewById(R.id.add)
+        empty = view.findViewById(R.id.empty)
+        numbers = view.findViewById(R.id.numbers)
+
         add.setBackgroundTint(colors.theme().theme)
         add.setTint(colors.theme().textPrimary)
         adapter.emptyView = empty
@@ -75,11 +85,12 @@ class BlockedNumbersController : QkController<BlockedNumbersView, BlockedNumbers
 
     override fun showAddDialog() {
         val layout = LayoutInflater.from(activity).inflate(R.layout.blocked_numbers_add_dialog, null)
-        val textWatcher = BlockedNumberTextWatcher(layout.input, phoneNumberUtils)
+        val input = layout.findViewById<android.widget.EditText>(R.id.input)
+        val textWatcher = BlockedNumberTextWatcher(input, phoneNumberUtils)
         val dialog = AlertDialog.Builder(activity!!)
                 .setView(layout)
                 .setPositiveButton(R.string.blocked_numbers_dialog_block) { _, _ ->
-                    saveAddressSubject.onNext(layout.input.text.toString())
+                    saveAddressSubject.onNext(input.text.toString())
                 }
                 .setNegativeButton(R.string.button_cancel) { _, _ -> }
                 .setOnDismissListener { textWatcher.dispose() }

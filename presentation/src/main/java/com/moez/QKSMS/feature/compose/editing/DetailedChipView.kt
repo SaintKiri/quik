@@ -34,6 +34,12 @@ class DetailedChipView(context: Context) : RelativeLayout(context) {
 
     @Inject lateinit var colors: Colors
 
+    private val avatar: dev.octoshrimpy.quik.common.widget.AvatarView by lazy { findViewById(R.id.avatar) }
+    private val name: android.widget.TextView by lazy { findViewById(R.id.name) }
+    private val info: android.widget.TextView by lazy { findViewById(R.id.info) }
+    private val card: View by lazy { findViewById(R.id.card) }
+    private val delete: View by lazy { findViewById(R.id.delete) }
+
     init {
         View.inflate(context, R.layout.contact_chip_detailed, this)
         appComponent.inject(this)

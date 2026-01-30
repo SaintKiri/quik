@@ -130,8 +130,9 @@ abstract class QkThemedActivity : QkActivity() {
         super.onPostCreate(savedInstanceState)
 
         // Set the color for the overflow and navigation icon
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         val textSecondary = resolveThemeColor(android.R.attr.textColorSecondary)
-        toolbar?.overflowIcon = toolbar?.overflowIcon?.apply { setTint(textSecondary) }
+        toolbar?.overflowIcon = toolbar.overflowIcon?.apply { setTint(textSecondary) }
 
         // Update the colours of the menu items
         Observables.combineLatest(menu, theme) { menu, theme ->

@@ -47,6 +47,13 @@ class SwipeActionsController : QkController<SwipeActionsView, SwipeActionsState,
      */
     private val actionClicks: Subject<SwipeActionsView.Action> = PublishSubject.create()
 
+    private lateinit var right: android.view.ViewGroup
+    private lateinit var left: android.view.ViewGroup
+    private lateinit var rightIcon: android.widget.ImageView
+    private lateinit var leftIcon: android.widget.ImageView
+    private lateinit var rightLabel: android.widget.TextView
+    private lateinit var leftLabel: android.widget.TextView
+
     init {
         appComponent.inject(this)
         layoutRes = R.layout.swipe_actions_controller
@@ -62,8 +69,8 @@ class SwipeActionsController : QkController<SwipeActionsView, SwipeActionsState,
             leftIcon.setTint(theme.textPrimary)
         }
 
-        right.postDelayed({ right?.animateLayoutChanges = true }, 100)
-        left.postDelayed({ left?.animateLayoutChanges = true }, 100)
+        right.postDelayed({ right.animateLayoutChanges = true }, 100)
+        left.postDelayed({ left.animateLayoutChanges = true }, 100)
 
         Observable.merge(
                 right.clicks().map { SwipeActionsView.Action.RIGHT },

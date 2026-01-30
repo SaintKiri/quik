@@ -67,6 +67,10 @@ class ContactsActivity : QkThemedActivity(), ContactsContract {
 
     private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory)[ContactsViewModel::class.java] }
 
+    private lateinit var search: android.widget.EditText
+    private lateinit var cancel: android.view.View
+    private lateinit var contacts: androidx.recyclerview.widget.RecyclerView
+
     private val phoneNumberDialog by lazy {
         QkDialog(this).apply {
             titleRes = R.string.compose_number_picker_title

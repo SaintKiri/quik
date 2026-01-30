@@ -25,9 +25,9 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.archlifecycle.LifecycleController
-import kotlinx.android.extensions.LayoutContainer
+import dev.octoshrimpy.quik.R
 
-abstract class QkController<ViewContract : QkViewContract<State>, State, Presenter : QkPresenter<ViewContract, State>> : LifecycleController(), LayoutContainer {
+abstract class QkController<ViewContract : QkViewContract<State>, State : Any, Presenter : QkPresenter<ViewContract, State>> : LifecycleController() {
 
     abstract var presenter: Presenter
 
@@ -37,7 +37,7 @@ abstract class QkController<ViewContract : QkViewContract<State>, State, Present
     protected val themedActivity: QkThemedActivity?
         get() = activity as? QkThemedActivity
 
-    override var containerView: View? = null
+    var containerView: View? = null
 
     @LayoutRes
     var layoutRes: Int = 0
@@ -58,7 +58,8 @@ abstract class QkController<ViewContract : QkViewContract<State>, State, Present
 
     fun setTitle(title: CharSequence?) {
         activity?.title = title
-        view?.toolbarTitle?.text = title
+        val toolbarTitle = containerView?.findViewById<android.widget.TextView>(R.id.toolbarTitle)
+        toolbarTitle?.text = title
     }
 
     fun showBackButton(show: Boolean) {
@@ -67,7 +68,6 @@ abstract class QkController<ViewContract : QkViewContract<State>, State, Present
 
     override fun onDestroyView(view: View) {
         containerView = null
-        clearFindViewByIdCache()
     }
 
     override fun onDestroy() {

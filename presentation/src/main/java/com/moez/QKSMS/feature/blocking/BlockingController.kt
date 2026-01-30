@@ -26,6 +26,7 @@ import dev.octoshrimpy.quik.common.QkChangeHandler
 import dev.octoshrimpy.quik.common.base.QkController
 import dev.octoshrimpy.quik.common.util.Colors
 import dev.octoshrimpy.quik.common.util.extensions.animateLayoutChanges
+import dev.octoshrimpy.quik.common.widget.PreferenceView
 import dev.octoshrimpy.quik.feature.blocking.manager.BlockingManagerController
 import dev.octoshrimpy.quik.feature.blocking.messages.BlockedMessagesController
 import dev.octoshrimpy.quik.feature.blocking.numbers.BlockedNumbersController
@@ -34,6 +35,13 @@ import dev.octoshrimpy.quik.injection.appComponent
 import javax.inject.Inject
 
 class BlockingController : QkController<BlockingView, BlockingState, BlockingPresenter>(), BlockingView {
+
+    private lateinit var blockingManager: PreferenceView
+    private lateinit var blockedNumbers: PreferenceView
+    private lateinit var messageContentFilters: PreferenceView
+    private lateinit var blockedMessages: PreferenceView
+    private lateinit var drop: PreferenceView
+    private lateinit var parent: android.view.ViewGroup
 
     override val blockingManagerIntent by lazy { blockingManager.clicks() }
     override val blockedNumbersIntent by lazy { blockedNumbers.clicks() }
@@ -52,6 +60,15 @@ class BlockingController : QkController<BlockingView, BlockingState, BlockingPre
 
     override fun onViewCreated() {
         super.onViewCreated()
+        val view = containerView ?: return
+
+        blockingManager = view.findViewById(R.id.blockingManager)
+        blockedNumbers = view.findViewById(R.id.blockedNumbers)
+        messageContentFilters = view.findViewById(R.id.messageContentFilters)
+        blockedMessages = view.findViewById(R.id.blockedMessages)
+        drop = view.findViewById(R.id.drop) // TODO: drop might be ambiguous with Kotlin's keyword
+        parent = view.findViewById(R.id.parent)
+
         parent.postDelayed({ parent?.animateLayoutChanges = true }, 100)
     }
 
@@ -64,7 +81,7 @@ class BlockingController : QkController<BlockingView, BlockingState, BlockingPre
 
     override fun render(state: BlockingState) {
         blockingManager.summary = state.blockingManager
-        drop.checkbox.isChecked = state.dropEnabled
+        drop.findViewById<android.widget.CheckBox>(R.id.checkbox).isChecked = state.dropEnabled
         blockedMessages.isEnabled = !state.dropEnabled
     }
 

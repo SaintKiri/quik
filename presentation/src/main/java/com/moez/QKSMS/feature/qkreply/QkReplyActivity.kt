@@ -55,6 +55,14 @@ class QkReplyActivity : QkThemedActivity(), QkReplyView {
     @Inject lateinit var adapter: MessagesAdapter
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    private lateinit var messages: RecyclerView
+    private lateinit var message: QkEditText
+    private lateinit var counter: android.widget.TextView
+    private lateinit var sim: View
+    private lateinit var simIndex: android.widget.TextView
+    private lateinit var send: android.widget.ImageView
+
     override val menuItemIntent: Subject<Int> = PublishSubject.create()
     override val textChangedIntent by lazy { message.textChanges() }
     override val changeSimIntent by lazy { sim.clicks() }
@@ -63,12 +71,12 @@ class QkReplyActivity : QkThemedActivity(), QkReplyView {
     private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory)[QkReplyViewModel::class.java] }
 
     private val speechResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode != Activity.RESULT_OK)
+        if (result.resultCode != RESULT_OK)
             return@registerForActivityResult
 
         // check returned results are good
         val match = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-        if ((match === null) || (match.size < 1) || (match[0].isNullOrEmpty()))
+        if ((match === null) || (match.isEmpty()) || (match[0].isNullOrEmpty()))
             return@registerForActivityResult
 
         // get the edit text view
@@ -89,6 +97,15 @@ class QkReplyActivity : QkThemedActivity(), QkReplyView {
 
         setFinishOnTouchOutside(prefs.qkreplyTapDismiss.get())
         setContentView(R.layout.qkreply_activity)
+
+        toolbar = findViewById(R.id.toolbar)
+        messages = findViewById(R.id.messages)
+        message = findViewById(R.id.message)
+        counter = findViewById(R.id.counter)
+        sim = findViewById(R.id.sim)
+        simIndex = findViewById(R.id.simIndex)
+        send = findViewById(R.id.send)
+
         window.setBackgroundDrawable(null)
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

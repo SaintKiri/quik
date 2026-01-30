@@ -49,6 +49,9 @@ class BlockedMessagesController : QkController<BlockedMessagesView, BlockedMessa
     @Inject lateinit var context: Context
     @Inject override lateinit var presenter: BlockedMessagesPresenter
 
+    private lateinit var empty: View
+    private lateinit var conversations: androidx.recyclerview.widget.RecyclerView
+
     init {
         appComponent.inject(this)
         retainViewMode = RetainViewMode.RETAIN_DETACH
@@ -57,6 +60,11 @@ class BlockedMessagesController : QkController<BlockedMessagesView, BlockedMessa
 
     override fun onViewCreated() {
         super.onViewCreated()
+        val view = containerView!!
+
+        empty = view.findViewById(R.id.empty)
+        conversations = view.findViewById(R.id.conversations)
+
         blockedMessagesAdapter.emptyView = empty
         conversations.adapter = blockedMessagesAdapter
     }
@@ -88,8 +96,10 @@ class BlockedMessagesController : QkController<BlockedMessagesView, BlockedMessa
     override fun render(state: BlockedMessagesState) {
         blockedMessagesAdapter.updateData(state.data)
 
-        themedActivity?.toolbar?.menu?.findItem(R.id.block)?.isVisible = state.selected > 0
-        themedActivity?.toolbar?.menu?.findItem(R.id.delete)?.isVisible = state.selected > 0
+        val toolbar = themedActivity?.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+
+        toolbar?.menu?.findItem(R.id.block)?.isVisible = state.selected > 0
+        toolbar?.menu?.findItem(R.id.delete)?.isVisible = state.selected > 0
 
         setTitle(when (state.selected) {
             0 -> context.getString(R.string.blocked_messages_title)

@@ -59,7 +59,8 @@ class ThemeAdapter @Inject constructor(
     private var iconTint = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QkViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.theme_palette_list_item, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.theme_palette_list_item, parent, false)
         view.palette.flexWrap = FlexWrap.WRAP
         view.palette.flexDirection = FlexDirection.ROW
 
@@ -82,29 +83,30 @@ class ThemeAdapter @Inject constructor(
         holder.palette.setPadding(swatchPadding, swatchPadding, swatchPadding, swatchPadding)
 
         (palette.subList(0, 5) + palette.subList(5, 10).reversed())
-                .mapIndexed { index, color ->
-                    LayoutInflater.from(context).inflate(R.layout.theme_list_item, holder.palette, false).apply {
+            .mapIndexed { index, color ->
+                LayoutInflater.from(context)
+                    .inflate(R.layout.theme_list_item, holder.palette, false).apply {
 
-                        // Send clicks to the selected subject
-                        setOnClickListener { colorSelected.onNext(color) }
+                    // Send clicks to the selected subject
+                    setOnClickListener { colorSelected.onNext(color) }
 
-                        // Apply the color to the view
-                        theme.setBackgroundTint(color)
+                    // Apply the color to the view
+                    theme.setBackgroundTint(color)
 
-                        // Control the check visibility and tint
-                        check.setVisible(color == selectedColor)
-                        check.setTint(iconTint)
+                    // Control the check visibility and tint
+                    check.setVisible(color == selectedColor)
+                    check.setTint(iconTint)
 
-                        // Update the size so that the spacing is perfectly even
-                        layoutParams = (layoutParams as FlexboxLayout.LayoutParams).apply {
-                            height = size
-                            width = size
-                            isWrapBefore = index % 5 == 0
-                            setMargins(swatchPadding, swatchPadding, swatchPadding, swatchPadding)
-                        }
+                    // Update the size so that the spacing is perfectly even
+                    layoutParams = (layoutParams as FlexboxLayout.LayoutParams).apply {
+                        height = size
+                        width = size
+                        isWrapBefore = index % 5 == 0
+                        setMargins(swatchPadding, swatchPadding, swatchPadding, swatchPadding)
                     }
                 }
-                .forEach { theme -> holder.palette.addView(theme) }
+            }
+            .forEach { theme -> holder.palette.addView(theme) }
     }
 
 }

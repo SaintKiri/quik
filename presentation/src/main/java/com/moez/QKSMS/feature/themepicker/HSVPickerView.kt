@@ -38,7 +38,14 @@ class HSVPickerView @JvmOverloads constructor(
 
     val selectedColor: Subject<Int> = BehaviorSubject.create()
 
-    private val hues = arrayOf(0xFFFF0000, 0xFFFFFF00, 0xFF00FF00, 0xFF00FFFF, 0xFF0000FF, 0xFFFF00FF, 0xFFFF0000)
+    private val saturation: android.view.View by lazy { findViewById(R.id.saturation) }
+    private val swatch: android.view.View by lazy { findViewById(R.id.swatch) }
+    private val hueGroup: android.view.View by lazy { findViewById(R.id.hueGroup) }
+    private val hueThumb: android.view.View by lazy { findViewById(R.id.hueThumb) }
+    private val hueTrack: android.widget.ImageView by lazy { findViewById(R.id.hueTrack) }
+
+    private val hues =
+        arrayOf(0xFFFF0000, 0xFFFFFF00, 0xFF00FF00, 0xFF00FFFF, 0xFF0000FF, 0xFFFF00FF, 0xFFFF0000)
             .map { it.toInt() }.toIntArray()
 
     private var min: Float = 0f
@@ -56,7 +63,7 @@ class HSVPickerView @JvmOverloads constructor(
         var swatchX = 0f
         var swatchY = 0f
 
-        saturation.setOnTouchListener { _, event ->
+        saturation.setOnTouchListener { _: View, event: MotionEvent ->
             setupBounds()
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -84,7 +91,7 @@ class HSVPickerView @JvmOverloads constructor(
 
         var hueThumbX = 0f
 
-        hueGroup.setOnTouchListener { _, event ->
+        hueGroup.setOnTouchListener { _: View, event : MotionEvent ->
             setupBounds()
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
