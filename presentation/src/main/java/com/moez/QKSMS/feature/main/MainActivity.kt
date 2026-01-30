@@ -66,10 +66,6 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.drawer_view.*
-import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.android.synthetic.main.main_permission_hint.*
-import kotlinx.android.synthetic.main.main_syncing.*
 import javax.inject.Inject
 
 class MainActivity : QkThemedActivity(), MainView {
